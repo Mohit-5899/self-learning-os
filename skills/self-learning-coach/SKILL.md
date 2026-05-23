@@ -38,8 +38,12 @@ Use this routing table. Each phase **must complete in order**. If the user asks 
 | Phase A complete, `smart-goal.md` missing | `smart-goal-setter` | All Phase A artifacts validated |
 | `smart-goal.md` present, `plan.md` missing | `learning-planner` | — |
 | `plan.md` present, `schedule.md` missing | `franklin-scheduler` | — |
-| Phase B complete | offer `feynman-checker` weekly; surface schedule for the day | — |
-| Any time, on user signal of frustration / wanting to quit | `confusion-endurance` (v1.1) | — |
+| Phase B complete (no Phase C activity yet) | offer first study session — `sq3r-session` (focused reading) or `cornell-notes` (note-taking on a resource) | — |
+| Phase C — user starting a focused reading session on a chapter/paper/lecture | `sq3r-session` | — |
+| Phase C — user taking notes on a specific resource | `cornell-notes` | — |
+| Phase C — weekly cadence per `schedule.md` (typically Friday) | `feynman-checker` | — |
+| Phase C — weekly cadence (Sunday default per `schedule.md`) | `weekly-review` | — |
+| Any time, on user signal of frustration / wanting to quit | `confusion-endurance` | — |
 
 ### Step 4 — Invoke and validate
 
@@ -109,7 +113,7 @@ Greet briefly and explain the journey:
 >
 > 1. **Diagnostic** (~15 min, one-time): classify the topic, audit your confidence, set up your time system.
 > 2. **Planning** (~30 min, one-time): SMART goal, weekly planks, Franklin-style schedule.
-> 3. **Execution** (ongoing, daily/weekly): Feynman checks (v1), SQ3R sessions and Cornell notes (v1.1).
+> 3. **Execution** (ongoing, daily/weekly): SQ3R sessions, Cornell notes, weekly Feynman checks, Sunday weekly reviews.
 >
 > Your progress will be saved at `~/.self-learning-os/<topic>/` so we can pick up next time.
 >
@@ -123,7 +127,7 @@ Read `state.md`, summarize where they left off, propose the next step:
 
 > Welcome back to **<topic>**. Last time (<N> days ago), we completed **<skill>**. Your next step is **<next-skill>**. Want to do that now, or would you prefer a Feynman check / weekly review first?
 
-If `last_activity` is more than 7 days ago: surface this and gently propose a `weekly-review` (v1.1) or `confusion-endurance` (v1.1) check-in before resuming.
+If `last_activity` is more than 7 days ago: surface this and gently propose a `weekly-review` or `confusion-endurance` check-in before resuming.
 
 ## Evidence-calibrated defaults (do not override)
 

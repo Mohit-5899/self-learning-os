@@ -1,6 +1,6 @@
 {
   "name": "self-learning-os",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Personal self-learning coach for any topic. Walks the user through diagnosis (art-vs-science, confidence, self-management), planning (SMART goal, weekly planks, Franklin-style schedule), and execution (Feynman checks, evidence-backed spaced practice). Built on Peter Hollins' Science of Self-Learning, calibrated against the Dunlosky 2013 utility hierarchy.",
   "author": {
     "name": "Quanta AI Labs",
@@ -32,7 +32,11 @@
     "skills/smart-goal-setter",
     "skills/learning-planner",
     "skills/franklin-scheduler",
-    "skills/feynman-checker"
+    "skills/feynman-checker",
+    "skills/sq3r-session",
+    "skills/cornell-notes",
+    "skills/weekly-review",
+    "skills/confusion-endurance"
   ],
   "agents": [],
   "commands": [],

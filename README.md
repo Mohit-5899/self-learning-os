@@ -16,7 +16,9 @@ This bundle prevents both mistakes. It walks the user through the book's exact o
 
 And it persists state, so the coach knows on day 14 what you did on day 3.
 
-## What's inside (v1)
+## What's inside
+
+12 skills in total — coordinator + 3 diagnostic + 3 planning + 5 execution/intervention.
 
 | Phase | Skill | Purpose |
 |---|---|---|
@@ -27,9 +29,11 @@ And it persists state, so the coach knows on day 14 what you did on day 3.
 | B — Planning | `smart-goal-setter` | One 3-month SMART goal with measurable milestones |
 | B — Planning | `learning-planner` | Weekly planks, week-1 survey list, question bank, motivation anchors |
 | B — Planning | `franklin-scheduler` | Daily/weekly schedule with evidence-backed review cadence (1d/3d/7d/21d) |
+| C — Execution | `sq3r-session` | Guided Survey→Question→Read→Recite→Review pass; mandatory retrieval steps |
+| C — Execution | `cornell-notes` | Three-column notes + **mandatory recall_questions** field |
 | C — Execution | `feynman-checker` | Weekly adversarial blind-spot check (g≈0.55 effect size) |
-
-Deferred to v1.1: `cornell-notes`, `sq3r-session`, `confusion-endurance`, `weekly-review`.
+| C — Cadence | `weekly-review` | Sunday cross-resource consolidation + schedule adjustment + pivot-rule check |
+| Any phase | `confusion-endurance` | On-demand intervention when the user signals frustration or wanting to quit |
 
 ## Why this order
 
@@ -90,10 +94,12 @@ The coach will route you into `topic-classifier` first, then walk you through th
 
 **v0.1 — In development.** Building in public. PRs, issues, and feedback welcome.
 
-- [ ] v1: Phase A + B end-to-end + `feynman-checker`
-- [ ] v1.1: `cornell-notes`, `sq3r-session`, `weekly-review`, `confusion-endurance`
-- [ ] v1.2: Optional MCP server for Anki/Obsidian export
-- [ ] v2: Subagent for parallel topic management
+- [x] **v0.1 (2026-05-23):** Phase A + B end-to-end + `feynman-checker` — scaffold written, untested
+- [x] **v0.2 (2026-05-23):** `sq3r-session`, `cornell-notes`, `weekly-review`, `confusion-endurance` — scaffold written, untested
+- [ ] **v1.0:** End-to-end acceptance test + description-hardening eval loop (port `skill-creator/run_loop.py`)
+- [ ] **v1.1:** Real-user validation pass + iteration on description triggers
+- [ ] **v1.2:** Optional MCP server for Anki/Obsidian export + `py-fsrs` integration
+- [ ] **v2:** Subagent for parallel topic management
 
 ## Credits
 
