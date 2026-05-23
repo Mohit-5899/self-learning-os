@@ -1,11 +1,21 @@
 ---
 name: cornell-notes
-description: Use this skill to guide the user through a single Cornell-style note-taking session on a specific resource (book chapter, video lecture, paper, documentation page). Triggers when the user says they are "taking notes on", "reading chapter X", "studying a paper", "watching a lecture", or explicitly asks for Cornell notes help. Produces the three-column structure (cues, notes, summary) plus a MANDATORY recall_questions field — pure summarization is low-utility (Dunlosky 2013); recall questions are what make Cornell work. Do NOT use for users still in Phase A or B, for note-taking on something not actively being studied, or as a substitute for actually engaging with the resource.
+description: Use this skill to (a) COACH the user through a Cornell note-taking session on a resource, OR (b) ASSIST by taking the user's raw notes / brain-dump / lecture transcript and structuring them into proper Cornell format. Either way, renders the result as a styled, print-ready HTML artifact the user can view, save, or share. Triggers when the user says "take notes on this", "organize these notes", "Cornell notes", "structure my notes", "reading chapter X", "studying a paper", "watching a lecture". Produces three outputs: HTML artifact (visual, print-ready), markdown (state persistence), JSON (with MANDATORY recall_questions for spaced repetition — per Dunlosky 2013, pure summarization is LOW utility; retrieval is HIGH). Do NOT use for users still in Phase A or B, for general note organization unrelated to learning, or as a substitute for engaging with the resource.
 ---
 
 # Cornell Notes (Phase C — Execution)
 
-You coach the user through one Cornell-style note-taking session on a single resource. The output is **three columns** (Notes, Cues, Summary) plus a **mandatory fourth field — Recall Questions** that the standard Cornell layout omits but the evidence requires.
+You produce Cornell-format notes in one of two modes — **Coach mode** (walk the user through note-taking as they engage with a resource) or **Assist mode** (take the user's raw input and structure it). Either way, the output is **three columns** (Cues, Notes, Summary) plus a **mandatory fourth field — Recall Questions** that the standard Cornell layout omits but the evidence requires.
+
+The final user-facing artifact is a **styled HTML document** (see [references/cornell_html_template.html](./references/cornell_html_template.html)) suitable for viewing, printing, or sharing. The markdown and JSON artifacts are also produced for state persistence and inter-skill handoff.
+
+## Two modes — pick before starting
+
+**Coach mode** — the user is actively engaging with a resource and wants help structuring their own notes as they go. Interactive, multi-turn. Use when the user says: *"help me take notes on chapter 3 as I read"*, *"walk me through Cornell on this paper"*, *"I'm watching this lecture, take Cornell notes with me."*
+
+**Assist mode** — the user has already studied / watched / read, and provides raw notes, a transcript, a brain-dump, or even just the resource text — and wants you to structure it. One-shot. Use when the user says: *"here are my notes, organize them in Cornell format"*, *"structure this lecture transcript as Cornell notes"*, *"I've finished the chapter, write the Cornell notes for me."*
+
+Detect the mode from the user's opening message. If ambiguous, ask one clarifying question and proceed.
 
 ## Why this matters
 
@@ -90,7 +100,33 @@ For art topics, shift the mix toward **choice questions** — "What tradeoff is 
 
 These questions get scheduled into the spaced-repetition queue. Use the `next_review_dates` field in the artifact.
 
-### Step 7 — Write the artifact
+### Step 7 — Render the HTML artifact (the user-facing output)
+
+This is the visual deliverable. Use the template at [references/cornell_html_template.html](./references/cornell_html_template.html) and produce an HTML artifact with the user's content substituted in.
+
+**Required substitutions:**
+
+| Template variable | Substitute with |
+|---|---|
+| `{{RESOURCE_TITLE}}` | Resource title (e.g., "CS231n Lecture 5 — CNNs") |
+| `{{TOPIC}}` | Topic name from state (e.g., "computer-vision") |
+| `{{RESOURCE_TYPE}}` | book chapter / paper / video / docs |
+| `{{PLANK}}` | Plank name from `plan.md` |
+| `{{DATE}}` | Today's date, ISO format |
+| `{{CUE_N}}` + `{{NOTES_N}}` pairs | One pair per cue/notes cluster; repeat the `<div class="cell cell-cue">` + `<div class="cell cell-notes">` block as many times as needed |
+| `{{SUMMARY}}` | 2–4 sentence summary |
+| `{{QUESTION_N}}` + `{{QUESTION_TYPE_N}}` + `{{REVIEW_DATES_N}}` | One `<li>` per recall question, with the type tag and the four review dates |
+
+**Output format in the conversation:**
+
+- In **Claude Code / claude.ai with artifact support**: emit the HTML as a single fenced code block (```html ... ```), and tell the user they can save it as `cornell-<resource-slug>.html` or open it in their browser via the artifact panel.
+- In **clients without artifact rendering**: emit the same HTML in the code block but explicitly instruct the user how to save and open it (one paragraph).
+
+The HTML must be **self-contained** — inline CSS, no external fonts, no external images. The template already conforms.
+
+Also save the HTML to `~/.self-learning-os/<topic>/notes/cornell-<YYYY-MM-DD>-<resource-slug>.html` if the client has file-write access.
+
+### Step 8 — Write the markdown + JSON state artifacts
 
 Append to `~/.self-learning-os/<topic>/notes/cornell-<YYYY-MM-DD>-<resource-slug>.md`:
 
@@ -128,9 +164,9 @@ Append to `~/.self-learning-os/<topic>/notes/cornell-<YYYY-MM-DD>-<resource-slug
 ```
 ```
 
-### Step 8 — Hand back
+### Step 9 — Hand back
 
-Confirm to the user. The recall questions are now in the spaced-repetition queue and will surface during secondary blocks per `schedule.md`.
+Confirm to the user with: *"HTML rendered above — save or print it. Markdown + JSON also written to your topic folder for state. Recall questions enter the spaced-repetition queue at +1d / +3d / +7d / +21d per your `schedule.md`."*
 
 ## When to use web search
 

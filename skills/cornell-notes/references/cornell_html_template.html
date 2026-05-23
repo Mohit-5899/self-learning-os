@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cornell Notes — {{RESOURCE_TITLE}}</title>
+  <style>
+    /* ===========================================================
+       Cornell Notes HTML Template — Self-Learning OS
+       Self-contained: inline CSS, no external dependencies.
+       Print-friendly via @media print + @page rules.
+       =========================================================== */
+
+    :root {
+      --color-text: #1a1a1a;
+      --color-muted: #6b7280;
+      --color-cue-bg: #fef9e7;        /* warm cream — left column */
+      --color-cue-border: #e6d8a8;
+      --color-notes-bg: #ffffff;       /* clean white — right column */
+      --color-summary-bg: #e8eef4;     /* cool blue tint */
+      --color-summary-border: #3a6ea5;
+      --color-recall-bg: #fdf2e7;      /* warm orange tint */
+      --color-recall-border: #d08770;
+      --color-divider: #d1d5db;
+      --font-serif: Georgia, "Times New Roman", serif;
+      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: var(--font-serif);
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 1.5rem;
+      color: var(--color-text);
+      line-height: 1.6;
+      background: #fafafa;
+    }
+
+    /* Header */
+    .header {
+      border-bottom: 2px solid var(--color-text);
+      padding-bottom: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .header h1 {
+      margin: 0 0 0.5rem 0;
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      font-family: var(--font-sans);
+      font-size: 0.85rem;
+      color: var(--color-muted);
+    }
+    .meta strong { color: var(--color-text); }
+
+    /* Cornell grid — cues (left, narrow) + notes (right, wide) */
+    .cornell-grid {
+      display: grid;
+      grid-template-columns: 1fr 2.5fr;
+      border: 1px solid var(--color-divider);
+      background: white;
+      margin-bottom: 1.5rem;
+    }
+
+    .column-header {
+      padding: 0.6rem 1rem;
+      font-family: var(--font-sans);
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--color-muted);
+      border-bottom: 1px solid var(--color-divider);
+    }
+    .header-cues {
+      background: var(--color-cue-bg);
+      border-right: 1px solid var(--color-divider);
+    }
+    .header-notes {
+      background: var(--color-notes-bg);
+    }
+
+    .cell {
+      padding: 1rem 1.2rem;
+      border-bottom: 1px dashed var(--color-divider);
+    }
+    .cell:nth-last-child(-n+2) { border-bottom: none; }
+    .cell-cue {
+      background: var(--color-cue-bg);
+      border-right: 1px solid var(--color-divider);
+      font-style: italic;
+      font-weight: 600;
+      color: #4a3a1a;
+    }
+    .cell-notes {
+      background: var(--color-notes-bg);
+    }
+
+    /* Summary block */
+    .summary {
+      padding: 1.2rem 1.4rem;
+      background: var(--color-summary-bg);
+      border-left: 4px solid var(--color-summary-border);
+      margin-bottom: 1.5rem;
+    }
+    .summary h2 {
+      margin: 0 0 0.5rem 0;
+      font-family: var(--font-sans);
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--color-summary-border);
+    }
+    .summary p {
+      margin: 0;
+      font-size: 1rem;
+    }
+
+    /* Recall questions block */
+    .recall {
+      padding: 1.2rem 1.4rem;
+      background: var(--color-recall-bg);
+      border-left: 4px solid var(--color-recall-border);
+    }
+    .recall h2 {
+      margin: 0 0 0.5rem 0;
+      font-family: var(--font-sans);
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--color-recall-border);
+    }
+    .recall .subtitle {
+      font-family: var(--font-sans);
+      font-size: 0.8rem;
+      color: var(--color-muted);
+      margin-bottom: 0.8rem;
+    }
+    .recall ol {
+      margin: 0;
+      padding-left: 1.5rem;
+    }
+    .recall li {
+      margin-bottom: 0.7rem;
+      font-size: 0.95rem;
+    }
+    .recall .tag {
+      display: inline-block;
+      font-family: var(--font-sans);
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 0.15rem 0.5rem;
+      margin-left: 0.5rem;
+      border-radius: 3px;
+      background: rgba(208, 129, 112, 0.15);
+      color: #8a4a3a;
+      vertical-align: middle;
+    }
+    .recall .review-dates {
+      display: block;
+      font-family: var(--font-sans);
+      font-size: 0.75rem;
+      color: var(--color-muted);
+      margin-top: 0.3rem;
+    }
+
+    /* Footer */
+    .footer {
+      margin-top: 2rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--color-divider);
+      font-family: var(--font-sans);
+      font-size: 0.75rem;
+      color: var(--color-muted);
+      text-align: center;
+    }
+
+    /* Print rules */
+    @page {
+      size: A4;
+      margin: 1.5cm;
+    }
+    @media print {
+      body {
+        margin: 0;
+        padding: 0;
+        max-width: none;
+        background: white;
+        font-size: 11pt;
+      }
+      .cornell-grid { page-break-inside: avoid; }
+      .summary, .recall { page-break-inside: avoid; }
+      .footer { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>Cornell Notes — {{RESOURCE_TITLE}}</h1>
+    <div class="meta">
+      <span><strong>Topic:</strong> {{TOPIC}}</span>
+      <span><strong>Resource:</strong> {{RESOURCE_TYPE}}</span>
+      <span><strong>Plank:</strong> {{PLANK}}</span>
+      <span><strong>Date:</strong> {{DATE}}</span>
+    </div>
+  </div>
+
+  <div class="cornell-grid">
+    <div class="column-header header-cues">Cues / Questions</div>
+    <div class="column-header header-notes">Notes (your own words)</div>
+
+    <!-- REPEAT THIS PAIR FOR EACH CUE/NOTES CLUSTER -->
+    <div class="cell cell-cue">{{CUE_1}}</div>
+    <div class="cell cell-notes">{{NOTES_1}}</div>
+    <!-- ... more pairs ... -->
+  </div>
+
+  <div class="summary">
+    <h2>Summary (2–4 sentences)</h2>
+    <p>{{SUMMARY}}</p>
+  </div>
+
+  <div class="recall">
+    <h2>Recall Questions</h2>
+    <div class="subtitle">Answer cold (book closed) at the spaced-repetition intervals below.</div>
+    <ol>
+      <!-- REPEAT FOR EACH RECALL QUESTION -->
+      <li>
+        {{QUESTION_1}} <span class="tag">{{QUESTION_TYPE_1}}</span>
+        <span class="review-dates">Next reviews: {{REVIEW_DATES_1}}</span>
+      </li>
+      <!-- ... more questions ... -->
+    </ol>
+  </div>
+
+  <div class="footer">
+    Generated by Self-Learning OS · cornell-notes skill · {{DATE}}
+  </div>
+</body>
+</html>

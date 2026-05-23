@@ -30,7 +30,7 @@ And it persists state, so the coach knows on day 14 what you did on day 3.
 | B — Planning | `learning-planner` | Weekly planks, week-1 survey list, question bank, motivation anchors |
 | B — Planning | `franklin-scheduler` | Daily/weekly schedule with evidence-backed review cadence (1d/3d/7d/21d) |
 | C — Execution | `sq3r-session` | Guided Survey→Question→Read→Recite→Review pass; mandatory retrieval steps |
-| C — Execution | `cornell-notes` | Three-column notes + **mandatory recall_questions** field |
+| C — Execution | `cornell-notes` | Coach or Assist mode → renders **styled HTML artifact** + mandatory `recall_questions` field |
 | C — Execution | `feynman-checker` | Weekly adversarial blind-spot check (g≈0.55 effect size) |
 | C — Cadence | `weekly-review` | Sunday cross-resource consolidation + schedule adjustment + pivot-rule check |
 | Any phase | `confusion-endurance` | On-demand intervention when the user signals frustration or wanting to quit |
