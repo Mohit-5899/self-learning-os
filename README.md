@@ -58,28 +58,121 @@ So the coach refuses to skip blocks. You cannot reach `learning-planner` until `
 
 This is the most honest deviation from the book: Hollins leans hard on Cornell summaries, but the evidence says the **recall column** is what does the work — not the summary. Our Cornell skill (v1.1) will enforce that.
 
-## Install (three paths)
+## Install — works on every agent that adopts the Agent Skills open standard
 
-### Path 1 — Claude Code plugin (recommended for developers)
+Self-Learning OS follows the [Agent Skills open standard](https://agentskills.io) (originally from Anthropic, now used by 26+ AI agents). The same 12 SKILL.md files work as-is across **Claude Code, claude.ai (web/desktop), OpenAI Codex CLI, Gemini CLI, Cursor, GitHub Copilot, VS Code**, and more. No per-client modifications needed.
+
+Pick your client below. Most installs are one command.
+
+---
+
+### Claude Code (CLI)
+
+**Plugin install (recommended — gets all 12 skills atomically):**
 
 ```bash
-# Once a marketplace listing exists:
-/plugin install self-learning-os@Mohit-5899
-
-# Or directly from this repo:
 git clone https://github.com/Mohit-5899/self-learning-os ~/.claude/plugins/self-learning-os
 ```
 
-### Path 2 — Manual copy (any Claude client)
+**Or skills-only install (cherry-pick what you want):**
 
 ```bash
-git clone https://github.com/Mohit-5899/self-learning-os
-cp -r self-learning-os/skills/* ~/.claude/skills/
+git clone https://github.com/Mohit-5899/self-learning-os /tmp/slos
+cp -r /tmp/slos/skills/* ~/.claude/skills/      # user scope (all projects)
+# OR
+cp -r /tmp/slos/skills/* .claude/skills/        # project scope (this repo only)
 ```
 
-### Path 3 — claude.ai upload
+Open a fresh Claude Code session and say `I want to learn <topic>`. The `self-learning-coach` skill auto-routes you through Diagnostic → Planning → Execution.
 
-Upload the contents of `skills/` to your claude.ai project's skill panel (paid plans). See Anthropic's [skills documentation](https://docs.claude.com/) for the current flow.
+📖 Reference: [code.claude.com/docs/en/skills](https://code.claude.com/docs/en/skills)
+
+---
+
+### claude.ai (Web / Desktop app)
+
+Available on **Free, Pro, Max, Team, and Enterprise plans** (requires the code-execution capability enabled).
+
+1. Clone or download this repo, then zip the `skills/` folder
+2. In claude.ai, go to **Settings → Capabilities → Skills → Upload**
+3. Upload the ZIP — **important: the ZIP must contain the `skills/` folder at root**, not just the individual `SKILL.md` files
+
+If you only want a specific skill (e.g., just the coordinator), zip only that one skill's directory.
+
+📖 Reference: [support.claude.com — How to create custom Skills](https://support.claude.com/en/articles/12512198-how-to-create-custom-skills)
+
+---
+
+### OpenAI Codex CLI
+
+Skills supported since December 2025.
+
+```bash
+# Default Codex skills path
+git clone https://github.com/Mohit-5899/self-learning-os ~/.agents/skills/self-learning-os
+
+# Or the alternative path some Codex versions use
+git clone https://github.com/Mohit-5899/self-learning-os ~/.codex/skills/self-learning-os
+```
+
+Inside Codex CLI: run `/skills` to confirm the bundle is loaded. Codex auto-loads matching skills; you can also explicitly mention a skill with `$<skill-name>`.
+
+📖 Reference: [developers.openai.com/codex/skills](https://developers.openai.com/codex/skills)
+
+---
+
+### Gemini CLI
+
+```bash
+# Global (all projects)
+git clone https://github.com/Mohit-5899/self-learning-os ~/.gemini/skills/self-learning-os
+
+# Or project-scoped (single repo, shareable via git)
+cd your-project
+git clone https://github.com/Mohit-5899/self-learning-os .gemini/skills/self-learning-os
+```
+
+Start a new Gemini CLI session. Skills activate via description matching.
+
+📖 Reference: [geminicli.com/docs/cli/skills](https://geminicli.com/docs/cli/skills/)
+
+---
+
+### Cursor, GitHub Copilot, VS Code, and 20+ other agents
+
+All consume the same [Agent Skills standard](https://agentskills.io). Follow your client's docs for its local skills directory path, then `git clone` this repo into it. The same 12 SKILL.md files work as-is.
+
+---
+
+### Universal: install once, use everywhere
+
+If you use multiple agents, clone once and symlink the rest. Then a single `git pull` updates every agent at once:
+
+```bash
+# Clone once to a neutral location
+git clone https://github.com/Mohit-5899/self-learning-os ~/agent-skills/self-learning-os
+
+# Symlink into each client's skills directory
+ln -s ~/agent-skills/self-learning-os ~/.claude/plugins/self-learning-os
+ln -s ~/agent-skills/self-learning-os ~/.agents/skills/self-learning-os
+ln -s ~/agent-skills/self-learning-os ~/.gemini/skills/self-learning-os
+```
+
+---
+
+### Verify it's working
+
+In your client, ask:
+
+> *"I want to learn Spanish in 3 months, I have 6 hours per week."*
+
+The `self-learning-coach` skill should immediately route you into Phase A (`topic-classifier` first). If it instead gives you a generic study plan, the skill didn't trigger — most often this is because:
+
+- The skill directory wasn't placed in the right path for your client (check the paths above)
+- Your client session needs a restart after install
+- The description-trigger didn't match — open `skills/self-learning-coach/SKILL.md` and verify the `description:` field
+
+Your learning state (per-topic) lives at `~/.self-learning-os/<topic>/` — portable across all agents.
 
 ## Worked example
 
