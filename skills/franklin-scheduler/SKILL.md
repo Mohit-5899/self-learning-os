@@ -1,6 +1,6 @@
 ---
 name: franklin-scheduler
-description: Use this skill after learning-planner, to convert the user's planks, weekly learning hours, and primary/secondary blocks into a concrete weekly schedule with Franklin-style daily/weekly cadence. Triggers when ~/.self-learning-os/<topic>/plan.md exists but schedule.md does not. Produces a weekly grid mapping each day's blocks to specific planks, overlays an evidence-backed spaced-repetition review cadence (1d / 3d / 7d / 21d per new concept) plus a weekly Feynman check, and respects all non-negotiables locked in self-management.md. Last skill of Phase B — after this, the user enters Phase C execution. Do NOT use for one-off study sessions, for general calendar advice, for users still in Phase A, or for users without a completed learning plan.
+description: Use this skill after learning-planner, to convert the user's planks, weekly learning hours, and primary/secondary blocks into a concrete weekly schedule with Franklin-style cadence — and render it as a styled HTML calendar grid (print-ready, save-as-html). Triggers when ~/.self-learning-os/<topic>/plan.md exists but schedule.md does not. Maps each day's blocks to specific planks, overlays evidence-backed spaced-repetition cadence (1d/3d/7d/21d) plus weekly Feynman check, respects non-negotiables from self-management.md. Outputs HTML (user-facing), markdown + JSON (state). Last skill of Phase B. Do NOT use for one-off study sessions, general calendar advice, users still in Phase A, or users without a completed learning plan.
 ---
 
 # Franklin Scheduler (Phase B — Planning, final step)
@@ -114,9 +114,17 @@ For every block, define the **fallback minimum** — the smallest version of thi
 
 This makes the schedule **robust to bad days** rather than collapsing when life intervenes.
 
-### Step 9 — Write the artifact
+### Step 9 — Write the artifacts (HTML + markdown + JSON)
 
-Save to `~/.self-learning-os/<topic>/schedule.md`:
+Produce three outputs.
+
+**HTML weekly schedule (user-facing).** Use template at [references/franklin_html_template.html](./references/franklin_html_template.html). Substitute placeholders: `TOPIC`, `WEEK_OF_DATE`, `WEEKLY_HOURS`, `PRIMARY_BLOCK_TIME`, `SECONDARY_BLOCK_TIME`, per-day primary + secondary cell content + cell class, `FEYNMAN_DAY`, `FEYNMAN_TIME`, review counts (`REVIEWS_1D`/`3D`/`7D`/`21D`), `PRIMARY_FALLBACK`, `SECONDARY_FALLBACK`, non-negotiables list, `GENERATED_DATE`.
+
+Cell-class options per day-block: `cell-deep` (primary deep work), `cell-light` (secondary light), `cell-review` (spaced-review-only block), `cell-feynman` (weekly Feynman slot), `cell-nonneg` (overlaps a non-negotiable — must redesign), `cell-empty` (unscheduled).
+
+Emit as fenced HTML code block in chat — renders as the visual weekly calendar in artifact-supporting clients. Also save to `~/.self-learning-os/<topic>/schedule.html` if file-write is available.
+
+**Markdown + JSON state.** Save to `~/.self-learning-os/<topic>/schedule.md`:
 
 ```markdown
 # Weekly Schedule: <topic>

@@ -1,6 +1,6 @@
 ---
 name: learning-planner
-description: Use this skill after smart-goal-setter, to produce the topic's full 3-month learning plan — weekly planks (rotating focus areas), a week-1 survey list of verified-current resources, an elaborative-interrogation question bank, and intrinsic motivation anchors (autonomy / mastery / purpose). Triggers when ~/.self-learning-os/<topic>/smart-goal.md exists but plan.md does not. Uses WebSearch and WebFetch heavily to verify every recommended resource is alive, current, and best-of-breed at execution time — does not rely on training-data lists. Required before franklin-scheduler. Do NOT use for picking the topic (out of scope), for scheduling content into days/times (that's franklin-scheduler), or for users still in Phase A or without a SMART goal.
+description: Use this skill after smart-goal-setter, to produce the topic's full 3-month learning plan (weekly planks, week-1 survey list of verified-current resources, elaborative-interrogation question bank, motivation anchors) — and render it as a styled HTML plan dashboard the user can view, save, or print. Triggers when ~/.self-learning-os/<topic>/smart-goal.md exists but plan.md does not. Uses WebSearch and WebFetch heavily to verify every resource is alive and current at execution time; does not rely on training-data lists. Outputs HTML (user-facing), markdown + JSON (state). Required before franklin-scheduler. Do NOT use for picking the topic, for scheduling into days/times (that's franklin-scheduler), or for users without a SMART goal.
 ---
 
 # Learning Planner (Phase B — Planning)
@@ -145,9 +145,15 @@ Do **not** default any plank to highlighting, rereading, or pure summarization.
 
 If `classification.md` flagged `external_feedback_required: true`, integrate the user's plan for getting feedback — critique group, mentor, peer reviewer, public posting — into the plan. Do not leave this as homework.
 
-### Step 9 — Write the artifact
+### Step 9 — Write the artifacts (HTML + markdown + JSON)
 
-Save to `~/.self-learning-os/<topic>/plan.md`. Long form, with the JSON artifact at the bottom:
+Produce three outputs.
+
+**HTML plan dashboard (user-facing).** Use template at [references/learning_plan_html_template.html](./references/learning_plan_html_template.html). Substitute: `TOPIC`, `SMART_GOAL_STATEMENT`, `DEADLINE_DATE`, `WEEKLY_HOURS`, `TOTAL_HOURS`, `SUITABILITY`, per-plank card content (`PLANK_N_NAME`, `PLANK_N_TOPICS`, `PLANK_N_TECH_N`), per-survey-item (`SURVEY_N_TITLE`, `SURVEY_N_DATE`, `SURVEY_N_TASK`), per-resource entry (`RES_N_URL`, `RES_N_TITLE`, `RES_N_FRESHNESS` with class `freshness-current` / `freshness-aging` / `freshness-stale`), each `QUESTION_N`, motivation anchors (`AUTONOMY_ANCHOR`, `MASTERY_ANCHOR`, `PURPOSE_ANCHOR`), `EXTERNAL_FEEDBACK_BLOCK` (omit the whole div if `external_feedback_required` is false), `GENERATED_DATE`.
+
+Emit as fenced HTML code block in chat — renders as the visual plan dashboard in artifact-supporting clients. Also save to `~/.self-learning-os/<topic>/plan.html` if file-write is available.
+
+**Markdown + JSON state.** Save to `~/.self-learning-os/<topic>/plan.md`. Long form, with the JSON artifact at the bottom:
 
 ```markdown
 # Learning Plan: <topic>

@@ -26,14 +26,16 @@ And it persists state, so the coach knows on day 14 what you did on day 3.
 | A — Diagnostic | `topic-classifier` | Art vs science breakdown — changes the whole approach |
 | A — Diagnostic | `confidence-audit` | Pyramid Block 1 — surfaces prior wins, names fears |
 | A — Diagnostic | `self-management-setup` | Pyramid Block 2 — time audit, schedule, routines |
-| B — Planning | `smart-goal-setter` | One 3-month SMART goal with measurable milestones |
-| B — Planning | `learning-planner` | Weekly planks, week-1 survey list, question bank, motivation anchors |
-| B — Planning | `franklin-scheduler` | Daily/weekly schedule with evidence-backed review cadence (1d/3d/7d/21d) |
+| B — Planning | `smart-goal-setter` | SMART goal with milestones + pivot rule — **HTML goal card** |
+| B — Planning | `learning-planner` | Planks, week-1 survey, question bank, motivation anchors — **HTML plan dashboard** |
+| B — Planning | `franklin-scheduler` | Daily/weekly schedule with 1d/3d/7d/21d review cadence — **HTML calendar grid** |
 | C — Execution | `sq3r-session` | Guided Survey→Question→Read→Recite→Review pass; mandatory retrieval steps |
-| C — Execution | `cornell-notes` | Coach or Assist mode → renders **styled HTML artifact** + mandatory `recall_questions` field |
+| C — Execution | `cornell-notes` | Coach or Assist mode → **HTML notes artifact** + mandatory `recall_questions` field |
 | C — Execution | `feynman-checker` | Weekly adversarial blind-spot check (g≈0.55 effect size) |
-| C — Cadence | `weekly-review` | Sunday cross-resource consolidation + schedule adjustment + pivot-rule check |
+| C — Cadence | `weekly-review` | Sunday cross-resource consolidation + pivot-rule check — **HTML metrics dashboard** |
 | Any phase | `confusion-endurance` | On-demand intervention when the user signals frustration or wanting to quit |
+
+**Visual artifacts.** Five skills render styled, self-contained, print-ready HTML artifacts alongside the markdown state files: `cornell-notes`, `franklin-scheduler`, `learning-planner`, `smart-goal-setter`, `weekly-review`. The user gets a real document to view, save, or print — not just text in a chat window. Templates live in each skill's `references/` directory; CSS is inline so files work offline.
 
 ## Why this order
 

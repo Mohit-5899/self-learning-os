@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weekly Review — {{TOPIC}} · Week ending {{WEEK_ENDING}}</title>
+  <style>
+    /* Weekly Review HTML Template — Self-Learning OS */
+
+    :root {
+      --color-text: #1a1a1a;
+      --color-muted: #6b7280;
+      --color-divider: #d1d5db;
+      --color-good: #d4edda; --color-good-border: #28a745;
+      --color-warn: #fff3cd; --color-warn-border: #ffc107;
+      --color-bad: #f8d7da; --color-bad-border: #dc3545;
+      --color-wins-bg: #d4edda; --color-wins-border: #28a745;
+      --color-blocker-bg: #fff3cd; --color-blocker-border: #ffc107;
+      --color-adjust-bg: #cce5ff; --color-adjust-border: #007bff;
+      --color-pivot-bg: #fce4ec; --color-pivot-border: #c2185b;
+      --font-serif: Georgia, "Times New Roman", serif;
+      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      font-family: var(--font-serif);
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 1.5rem;
+      color: var(--color-text);
+      line-height: 1.6;
+      background: #fafafa;
+    }
+    .header { border-bottom: 2px solid var(--color-text); padding-bottom: 1rem; margin-bottom: 1.5rem; }
+    .header h1 { margin: 0 0 0.5rem 0; font-size: 1.5rem; }
+    .meta {
+      display: flex; flex-wrap: wrap; gap: 1.5rem;
+      font-family: var(--font-sans); font-size: 0.85rem; color: var(--color-muted);
+    }
+    .meta strong { color: var(--color-text); }
+
+    h2 { margin: 1.8rem 0 0.8rem 0; font-family: var(--font-sans); font-size: 0.95rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; padding-bottom: 0.3rem; border-bottom: 1px solid var(--color-divider); }
+
+    /* Stat cards */
+    .stat-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 0.7rem;
+    }
+    .stat-card {
+      padding: 0.9rem 1rem;
+      background: white;
+      border: 1px solid var(--color-divider);
+      border-left-width: 4px;
+      border-radius: 0 4px 4px 0;
+      text-align: center;
+    }
+    .stat-card .number { font-size: 2rem; font-weight: 800; line-height: 1; }
+    .stat-card .label { font-family: var(--font-sans); font-size: 0.75rem; color: var(--color-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 0.4rem; }
+    .stat-good { border-left-color: var(--color-good-border); }
+    .stat-good .number { color: var(--color-good-border); }
+    .stat-warn { border-left-color: var(--color-warn-border); }
+    .stat-warn .number { color: #856404; }
+    .stat-bad { border-left-color: var(--color-bad-border); }
+    .stat-bad .number { color: var(--color-bad-border); }
+
+    /* Planned vs actual table */
+    table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+    th, td { padding: 0.6rem 0.8rem; text-align: left; border-bottom: 1px solid var(--color-divider); }
+    th { font-family: var(--font-sans); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-muted); background: #f8f9fa; }
+    .status-done { color: var(--color-good-border); font-weight: 700; }
+    .status-skip { color: var(--color-bad-border); font-weight: 700; }
+    .status-partial { color: #856404; font-weight: 700; }
+
+    /* Feynman / spaced-review status banner */
+    .status-banner {
+      padding: 0.9rem 1.2rem;
+      border-left: 4px solid;
+      border-radius: 0 4px 4px 0;
+      margin-bottom: 1rem;
+      font-size: 0.95rem;
+    }
+    .banner-good { background: var(--color-good); border-left-color: var(--color-good-border); }
+    .banner-warn { background: var(--color-warn); border-left-color: var(--color-warn-border); }
+    .banner-bad { background: var(--color-bad); border-left-color: var(--color-bad-border); }
+    .status-banner strong { display: block; margin-bottom: 0.2rem; font-family: var(--font-sans); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; }
+
+    /* Wins, blockers, adjustments */
+    .block { padding: 1rem 1.4rem; border-left: 4px solid; border-radius: 0 4px 4px 0; margin-bottom: 1rem; }
+    .block ul { margin: 0; padding-left: 1.4rem; }
+    .block li { margin-bottom: 0.4rem; }
+    .wins { background: var(--color-wins-bg); border-left-color: var(--color-wins-border); }
+    .wins h3 { color: var(--color-wins-border); }
+    .blockers { background: var(--color-blocker-bg); border-left-color: var(--color-blocker-border); }
+    .blockers h3 { color: #856404; }
+    .adjustments { background: var(--color-adjust-bg); border-left-color: var(--color-adjust-border); }
+    .adjustments h3 { color: var(--color-adjust-border); }
+    .block h3 { margin: 0 0 0.5rem 0; font-family: var(--font-sans); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.08em; }
+
+    /* Pivot rule */
+    .pivot { padding: 1rem 1.4rem; background: var(--color-pivot-bg); border-left: 4px solid var(--color-pivot-border); border-radius: 0 4px 4px 0; }
+    .pivot h3 { margin: 0 0 0.4rem 0; font-family: var(--font-sans); font-size: 0.85rem; color: var(--color-pivot-border); text-transform: uppercase; letter-spacing: 0.08em; }
+    .pivot p { margin: 0; font-size: 0.95rem; }
+    .pivot-fired { background: #c2185b; color: white; padding: 0.2rem 0.6rem; border-radius: 3px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; }
+
+    .footer { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--color-divider); font-family: var(--font-sans); font-size: 0.75rem; color: var(--color-muted); text-align: center; }
+
+    @page { size: A4; margin: 1.5cm; }
+    @media print {
+      body { margin: 0; padding: 0; max-width: none; background: white; font-size: 10pt; }
+      .stat-card, .status-banner, .block, .pivot { page-break-inside: avoid; }
+      .footer { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>Weekly Review — {{TOPIC}}</h1>
+    <div class="meta">
+      <span><strong>Week ending:</strong> {{WEEK_ENDING}}</span>
+      <span><strong>Week number in plan:</strong> {{WEEK_IN_PLAN}}</span>
+    </div>
+  </div>
+
+  <h2>This week at a glance</h2>
+  <div class="stat-grid">
+    <div class="stat-card stat-good">
+      <div class="number">{{PLANKS_DONE}}</div>
+      <div class="label">Planks done</div>
+    </div>
+    <div class="stat-card stat-bad">
+      <div class="number">{{PLANKS_SKIPPED}}</div>
+      <div class="label">Planks skipped</div>
+    </div>
+    <div class="stat-card stat-warn">
+      <div class="number">{{REVIEWS_MISSED}}</div>
+      <div class="label">Reviews drifted</div>
+    </div>
+    <div class="stat-card stat-good">
+      <div class="number">{{COMPLETION_PERCENT}}%</div>
+      <div class="label">Plan completion</div>
+    </div>
+  </div>
+
+  <h2>Weekly Feynman Check</h2>
+  <div class="status-banner {{FEYNMAN_BANNER_CLASS}}">
+    <strong>{{FEYNMAN_STATUS_LABEL}}</strong>
+    {{FEYNMAN_STATUS_DETAIL}}
+  </div>
+
+  <h2>Spaced Repetition Reviews</h2>
+  <div class="status-banner {{REVIEW_BANNER_CLASS}}">
+    <strong>{{REVIEW_STATUS_LABEL}}</strong>
+    +1d: {{REVIEWS_1D_DONE}}/{{REVIEWS_1D_DUE}} done · +3d: {{REVIEWS_3D_DONE}}/{{REVIEWS_3D_DUE}} · +7d: {{REVIEWS_7D_DONE}}/{{REVIEWS_7D_DUE}} · +21d: {{REVIEWS_21D_DONE}}/{{REVIEWS_21D_DUE}}
+  </div>
+
+  <h2>Planned vs Actual</h2>
+  <table>
+    <thead>
+      <tr><th>Day</th><th>Planned plank</th><th>Status</th><th>Notes</th></tr>
+    </thead>
+    <tbody>
+      <!-- Repeat one tr per day -->
+      <tr>
+        <td>{{DAY_1}}</td>
+        <td>{{DAY_1_PLANK}}</td>
+        <td class="{{DAY_1_STATUS_CLASS}}">{{DAY_1_STATUS}}</td>
+        <td>{{DAY_1_NOTES}}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>Wins, Blockers, Adjustments</h2>
+
+  <div class="block wins">
+    <h3>Wins (specific moments of progress)</h3>
+    <ul>
+      <!-- Repeat per win -->
+      <li>{{WIN_1}}</li>
+    </ul>
+  </div>
+
+  <div class="block blockers">
+    <h3>Blockers (named, not judged)</h3>
+    <ul>
+      <!-- Repeat per blocker -->
+      <li><strong>{{BLOCKER_1}}:</strong> {{BLOCKER_1_DETAIL}}</li>
+    </ul>
+  </div>
+
+  <div class="block adjustments">
+    <h3>Next week's schedule delta</h3>
+    <ul>
+      <!-- Repeat per adjustment -->
+      <li>{{ADJUSTMENT_1}}</li>
+    </ul>
+  </div>
+
+  <h2>Pivot Rule Check</h2>
+  <div class="pivot">
+    <h3>Milestones missed in past 2 weeks: {{MILESTONES_MISSED_2WK}} <span class="pivot-fired" style="display: {{PIVOT_DISPLAY}};">PIVOT FIRED</span></h3>
+    <p>{{PIVOT_DECISION_DETAIL}}</p>
+  </div>
+
+  <div class="footer">
+    Generated by Self-Learning OS · weekly-review · {{GENERATED_DATE}}
+  </div>
+</body>
+</html>

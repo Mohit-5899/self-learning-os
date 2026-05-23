@@ -1,6 +1,6 @@
 ---
 name: smart-goal-setter
-description: Use this skill after self-management-setup, to convert the user's 3-month progress markers (from confidence.md) and weekly time budget (from self-management.md) into one rigorous SMART goal — Specific, Measurable, Achievable, Relevant, Time-bound — with weekly milestones. Triggers when ~/.self-learning-os/<topic>/self-management.md exists but smart-goal.md does not. Required before learning-planner. The skill rejects vague goals ("learn computer vision") and pushes the user toward measurable outcomes ("train and deploy a custom YOLO object detector on a self-chosen dataset by week 12"). Do NOT use for users still in Phase A, for non-learning goals, or for already-set goals (check state first).
+description: Use this skill after self-management-setup, to convert the user's 3-month progress markers (from confidence.md) and weekly time budget (from self-management.md) into one rigorous SMART goal — Specific, Measurable, Achievable, Relevant, Time-bound — with milestones and a pivot rule, rendered as a styled HTML goal card the user can pin and revisit. Triggers when ~/.self-learning-os/<topic>/self-management.md exists but smart-goal.md does not. Rejects vague goals ("learn X") and pushes for measurable outcomes ("train and deploy a custom YOLO object detector by week 12"). Outputs HTML (user-facing), markdown + JSON (state). Required before learning-planner. Do NOT use for users still in Phase A, for non-learning goals, or for already-set goals (check state first).
 ---
 
 # SMART Goal Setter (Phase B — Planning)
@@ -98,9 +98,15 @@ The book emphasizes that failure should redirect, not destroy. Lock the **pivot 
 
 Capture this explicitly.
 
-### Step 6 — Write the artifact
+### Step 6 — Write the artifacts (HTML + markdown + JSON)
 
-Save to `~/.self-learning-os/<topic>/smart-goal.md`:
+Produce three outputs.
+
+**HTML goal card (user-facing).** Use template at [references/smart_goal_html_template.html](./references/smart_goal_html_template.html). Substitute: `TOPIC`, `DEADLINE_DATE`, `WEEKLY_HOURS`, `TOTAL_HOURS`, `GOAL_STATEMENT` (the full SMART sentence), `SPECIFIC` / `MEASURABLE` / `ACHIEVABLE` / `RELEVANT` / `TIME_BOUND` (one per SMART-letter box), per-milestone (`MILESTONE_N_WEEK`, `MILESTONE_N_TEXT`, `MILESTONE_N_VERIFY`), `PIVOT_RULE`, `GENERATED_DATE`.
+
+Emit as fenced HTML code block in chat — renders as a visual goal card the user can pin somewhere they'll see daily. Also save to `~/.self-learning-os/<topic>/smart-goal.html` if file-write is available.
+
+**Markdown + JSON state.** Save to `~/.self-learning-os/<topic>/smart-goal.md`:
 
 ```markdown
 # SMART Goal: <topic>

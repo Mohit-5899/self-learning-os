@@ -1,6 +1,6 @@
 ---
 name: weekly-review
-description: Use this skill for the weekly Sunday consolidation across all active learning topics — what got done, what slipped, what to adjust for next week. Triggers on Sundays, whenever the user says "weekly review", "how is my week looking", "let's reflect on the week", "what's left this week", or when more than 6 days have passed since the last review. Reads state.md and the week's notes/reviews directories, surfaces planks completed vs skipped, confirms the weekly Feynman check ran, flags missed spaced reviews, and produces explicit adjustments for next week's schedule. Do NOT use for daily review (that's the secondary block in franklin-scheduler), for users still in Phase A or B, or for users with no completed study sessions yet in the past week.
+description: Use this skill for the weekly Sunday consolidation across all active learning topics — what got done, what slipped, what to adjust for next week — and render it as a styled HTML metrics dashboard with planned-vs-actual, Feynman status, spaced-review drift, wins, blockers, and schedule deltas. Triggers on Sundays, whenever the user says "weekly review", "how is my week looking", "let's reflect on the week", or when more than 6 days have passed since the last review. Surfaces planks completed vs skipped, confirms weekly Feynman ran, flags missed reviews, fires the SMART-goal pivot rule if milestones slipped. Outputs HTML (user-facing), markdown + JSON (state). Do NOT use for daily review, for users still in Phase A or B, or for users with no completed sessions in the past week.
 ---
 
 # Weekly Review (Phase C — Cadence)
@@ -121,9 +121,15 @@ Re-read `smart-goal.md` — the pivot rule. If you've now missed two weekly mile
 
 Do not let "fall further behind" be the default outcome. The pivot rule exists for this moment.
 
-### Step 8 — Write the artifact
+### Step 8 — Write the artifacts (HTML + markdown + JSON)
 
-Append to `~/.self-learning-os/<topic>/reviews/weekly-<YYYY-Www>.md`:
+Produce three outputs.
+
+**HTML metrics dashboard (user-facing).** Use template at [references/weekly_review_html_template.html](./references/weekly_review_html_template.html). Substitute: `TOPIC`, `WEEK_ENDING`, `WEEK_IN_PLAN`, stat-card numbers (`PLANKS_DONE`, `PLANKS_SKIPPED`, `REVIEWS_MISSED`, `COMPLETION_PERCENT`), Feynman banner (`FEYNMAN_BANNER_CLASS` = `banner-good` / `banner-warn` / `banner-bad`, `FEYNMAN_STATUS_LABEL`, `FEYNMAN_STATUS_DETAIL`), spaced-review banner + counts (`REVIEWS_1D_DONE`/`DUE`, etc.), per-day rows (`DAY_N`, `DAY_N_PLANK`, `DAY_N_STATUS`, `DAY_N_STATUS_CLASS` = `status-done` / `status-skip` / `status-partial`, `DAY_N_NOTES`), per-win/blocker/adjustment list items, pivot block (`MILESTONES_MISSED_2WK`, `PIVOT_DISPLAY` = `inline` if fired else `none`, `PIVOT_DECISION_DETAIL`), `GENERATED_DATE`.
+
+Emit as fenced HTML code block in chat — renders as a visual dashboard the user can scan in under a minute. Also save to `~/.self-learning-os/<topic>/reviews/weekly-<YYYY-Www>.html` if file-write is available.
+
+**Markdown + JSON state.** Append to `~/.self-learning-os/<topic>/reviews/weekly-<YYYY-Www>.md`:
 
 ```markdown
 # Weekly Review: <topic> — Week ending <date>

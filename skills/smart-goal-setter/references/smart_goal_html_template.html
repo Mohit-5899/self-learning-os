@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SMART Goal — {{TOPIC}}</title>
+  <style>
+    /* SMART Goal Setter HTML Template — Self-Learning OS */
+
+    :root {
+      --color-text: #1a1a1a;
+      --color-muted: #6b7280;
+      --color-divider: #d1d5db;
+      --color-s: #fff3cd; --color-s-border: #ffc107;  /* Specific */
+      --color-m: #d4edda; --color-m-border: #28a745;  /* Measurable */
+      --color-a: #cce5ff; --color-a-border: #007bff;  /* Achievable */
+      --color-r: #f8d7da; --color-r-border: #dc3545;  /* Relevant */
+      --color-t: #e2d4f7; --color-t-border: #6f42c1;  /* Time-bound */
+      --color-milestone-bg: #ffffff;
+      --color-milestone-border: #3a6ea5;
+      --color-pivot-bg: #fce4ec; --color-pivot-border: #c2185b;
+      --font-serif: Georgia, "Times New Roman", serif;
+      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      font-family: var(--font-serif);
+      max-width: 850px;
+      margin: 2rem auto;
+      padding: 1.5rem;
+      color: var(--color-text);
+      line-height: 1.6;
+      background: #fafafa;
+    }
+    .header { border-bottom: 2px solid var(--color-text); padding-bottom: 1rem; margin-bottom: 1.5rem; }
+    .header h1 { margin: 0 0 0.5rem 0; font-size: 1.5rem; }
+    .meta {
+      display: flex; flex-wrap: wrap; gap: 1.5rem;
+      font-family: var(--font-sans); font-size: 0.85rem; color: var(--color-muted);
+    }
+    .meta strong { color: var(--color-text); }
+
+    .goal-statement {
+      padding: 1.2rem 1.4rem;
+      margin: 1.5rem 0;
+      background: #1a1a1a; color: white;
+      border-radius: 4px;
+      font-size: 1.05rem;
+      line-height: 1.6;
+      font-style: italic;
+    }
+
+    h2 { margin: 1.8rem 0 0.8rem 0; font-family: var(--font-sans); font-size: 0.95rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; padding-bottom: 0.3rem; border-bottom: 1px solid var(--color-divider); }
+
+    /* SMART grid — 5 colored boxes */
+    .smart-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 0.7rem;
+    }
+    .smart-box {
+      padding: 0.9rem 1rem;
+      border-left: 4px solid;
+      border-radius: 0 4px 4px 0;
+    }
+    .smart-box .letter { font-family: var(--font-sans); font-size: 1.6rem; font-weight: 800; line-height: 1; margin: 0; }
+    .smart-box .label { font-family: var(--font-sans); font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-muted); margin: 0.1rem 0 0.4rem 0; }
+    .smart-box .content { font-size: 0.9rem; margin: 0; }
+    .smart-s { background: var(--color-s); border-left-color: var(--color-s-border); }
+    .smart-m { background: var(--color-m); border-left-color: var(--color-m-border); }
+    .smart-a { background: var(--color-a); border-left-color: var(--color-a-border); }
+    .smart-r { background: var(--color-r); border-left-color: var(--color-r-border); }
+    .smart-t { background: var(--color-t); border-left-color: var(--color-t-border); }
+
+    /* Milestone timeline */
+    .timeline {
+      position: relative;
+      padding: 0.5rem 0 0.5rem 2rem;
+      border-left: 3px solid var(--color-milestone-border);
+      margin: 0.5rem 1rem;
+    }
+    .milestone {
+      position: relative;
+      padding: 0.7rem 1rem;
+      background: var(--color-milestone-bg);
+      border: 1px solid var(--color-divider);
+      border-radius: 4px;
+      margin-bottom: 0.8rem;
+    }
+    .milestone::before {
+      content: "";
+      position: absolute;
+      left: -2.6rem;
+      top: 1.2rem;
+      width: 14px; height: 14px;
+      background: var(--color-milestone-border);
+      border-radius: 50%;
+      border: 3px solid white;
+      box-shadow: 0 0 0 1px var(--color-milestone-border);
+    }
+    .milestone .week { font-family: var(--font-sans); font-size: 0.8rem; font-weight: 700; color: var(--color-milestone-border); margin: 0 0 0.3rem 0; }
+    .milestone .text { margin: 0; font-size: 0.95rem; }
+    .milestone .verify { display: block; font-size: 0.8rem; color: var(--color-muted); margin-top: 0.3rem; }
+
+    /* Pivot rule */
+    .pivot {
+      padding: 1rem 1.4rem;
+      background: var(--color-pivot-bg);
+      border-left: 4px solid var(--color-pivot-border);
+      border-radius: 0 4px 4px 0;
+      margin-top: 1rem;
+    }
+    .pivot h3 { margin: 0 0 0.4rem 0; font-family: var(--font-sans); font-size: 0.85rem; color: var(--color-pivot-border); text-transform: uppercase; letter-spacing: 0.08em; }
+    .pivot p { margin: 0; font-size: 0.95rem; }
+
+    .footer { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--color-divider); font-family: var(--font-sans); font-size: 0.75rem; color: var(--color-muted); text-align: center; }
+
+    @page { size: A4; margin: 1.5cm; }
+    @media print {
+      body { margin: 0; padding: 0; max-width: none; background: white; font-size: 10pt; }
+      .goal-statement, .smart-grid, .milestone, .pivot { page-break-inside: avoid; }
+      .footer { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>SMART Goal — {{TOPIC}}</h1>
+    <div class="meta">
+      <span><strong>Deadline:</strong> {{DEADLINE_DATE}}</span>
+      <span><strong>Weekly hours:</strong> {{WEEKLY_HOURS}}</span>
+      <span><strong>Total budget:</strong> {{TOTAL_HOURS}}</span>
+    </div>
+  </div>
+
+  <div class="goal-statement">
+    {{GOAL_STATEMENT}}
+  </div>
+
+  <h2>SMART Breakdown</h2>
+  <div class="smart-grid">
+    <div class="smart-box smart-s">
+      <p class="letter">S</p>
+      <p class="label">Specific</p>
+      <p class="content">{{SPECIFIC}}</p>
+    </div>
+    <div class="smart-box smart-m">
+      <p class="letter">M</p>
+      <p class="label">Measurable</p>
+      <p class="content">{{MEASURABLE}}</p>
+    </div>
+    <div class="smart-box smart-a">
+      <p class="letter">A</p>
+      <p class="label">Achievable</p>
+      <p class="content">{{ACHIEVABLE}}</p>
+    </div>
+    <div class="smart-box smart-r">
+      <p class="letter">R</p>
+      <p class="label">Relevant</p>
+      <p class="content">{{RELEVANT}}</p>
+    </div>
+    <div class="smart-box smart-t">
+      <p class="letter">T</p>
+      <p class="label">Time-bound</p>
+      <p class="content">{{TIME_BOUND}}</p>
+    </div>
+  </div>
+
+  <h2>Milestones</h2>
+  <div class="timeline">
+    <!-- Repeat per milestone -->
+    <div class="milestone">
+      <p class="week">Week {{MILESTONE_1_WEEK}}</p>
+      <p class="text">{{MILESTONE_1_TEXT}}</p>
+      <span class="verify"><strong>Verification:</strong> {{MILESTONE_1_VERIFY}}</span>
+    </div>
+  </div>
+
+  <h2>Pivot Rule</h2>
+  <div class="pivot">
+    <h3>If milestones slip, this is the pre-committed response</h3>
+    <p>{{PIVOT_RULE}}</p>
+  </div>
+
+  <div class="footer">
+    Generated by Self-Learning OS · smart-goal-setter · {{GENERATED_DATE}}
+  </div>
+</body>
+</html>
