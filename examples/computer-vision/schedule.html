@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weekly Schedule — computer-vision</title>
+  <style>
+    :root {
+      --color-text: #1a1a1a; --color-muted: #6b7280; --color-divider: #d1d5db;
+      --color-deep: #e8eef4; --color-deep-border: #3a6ea5;
+      --color-light: #fef9e7; --color-light-border: #e6d8a8;
+      --color-review: #fdf2e7; --color-review-border: #d08770;
+      --color-feynman: #fce4ec; --color-feynman-border: #c2185b;
+      --color-nonneg: #f3f4f6; --color-nonneg-border: #9ca3af;
+      --font-serif: Georgia, "Times New Roman", serif;
+      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body { font-family: var(--font-serif); max-width: 1100px; margin: 2rem auto; padding: 1.5rem; color: var(--color-text); line-height: 1.5; background: #fafafa; }
+    .header { border-bottom: 2px solid var(--color-text); padding-bottom: 1rem; margin-bottom: 1.5rem; }
+    .header h1 { margin: 0 0 0.5rem 0; font-size: 1.5rem; }
+    .meta { display: flex; flex-wrap: wrap; gap: 1.5rem; font-family: var(--font-sans); font-size: 0.85rem; color: var(--color-muted); }
+    .meta strong { color: var(--color-text); }
+    .week-grid { display: grid; grid-template-columns: 110px repeat(7, 1fr); border: 1px solid var(--color-divider); background: white; margin-bottom: 1.5rem; font-size: 0.85rem; }
+    .day-header, .time-header { padding: 0.6rem; font-family: var(--font-sans); font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; background: #f8f9fa; color: var(--color-muted); border-bottom: 1px solid var(--color-divider); text-align: center; }
+    .time-header { border-right: 1px solid var(--color-divider); text-align: left; padding-left: 0.8rem; }
+    .row-label { padding: 0.6rem 0.8rem; font-family: var(--font-sans); font-size: 0.75rem; font-weight: 600; background: #f8f9fa; color: var(--color-muted); border-right: 1px solid var(--color-divider); border-bottom: 1px solid var(--color-divider); }
+    .cell { padding: 0.6rem 0.5rem; border-right: 1px solid var(--color-divider); border-bottom: 1px solid var(--color-divider); min-height: 70px; font-size: 0.8rem; }
+    .cell:last-child { border-right: none; }
+    .cell-deep { background: var(--color-deep); border-left: 3px solid var(--color-deep-border); }
+    .cell-light { background: var(--color-light); border-left: 3px solid var(--color-light-border); }
+    .cell-feynman { background: var(--color-feynman); border-left: 3px solid var(--color-feynman-border); }
+    .cell-weekend { background: var(--color-deep); border-left: 3px solid var(--color-deep-border); }
+    .cell-buffer { background: #f9fafb; border-left: 3px solid #d1d5db; color: var(--color-muted); }
+    .cell-empty { background: white; }
+    .cell .plank { font-weight: 600; display: block; margin-bottom: 0.2rem; }
+    .cell .activity { font-size: 0.75rem; color: var(--color-muted); }
+    .legend { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem; font-family: var(--font-sans); font-size: 0.8rem; }
+    .legend-item { display: flex; align-items: center; gap: 0.4rem; }
+    .legend-swatch { width: 14px; height: 14px; border-left-width: 3px; border-left-style: solid; }
+    .section { margin-bottom: 1.5rem; padding: 1rem 1.4rem; }
+    .section h2 { margin: 0 0 0.6rem 0; font-family: var(--font-sans); font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; }
+    .section ul { margin: 0; padding-left: 1.4rem; }
+    .section li { margin-bottom: 0.4rem; font-size: 0.9rem; }
+    .review-section { background: var(--color-review); border-left: 4px solid var(--color-review-border); }
+    .review-section h2 { color: var(--color-review-border); }
+    .feynman-section { background: var(--color-feynman); border-left: 4px solid var(--color-feynman-border); }
+    .feynman-section h2 { color: var(--color-feynman-border); }
+    .fallback-section { background: var(--color-light); border-left: 4px solid var(--color-light-border); }
+    .fallback-section h2 { color: #4a3a1a; }
+    .nonneg-section { background: var(--color-nonneg); border-left: 4px solid var(--color-nonneg-border); }
+    .nonneg-section h2 { color: var(--color-nonneg-border); }
+    .footer { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--color-divider); font-family: var(--font-sans); font-size: 0.75rem; color: var(--color-muted); text-align: center; }
+    @page { size: A4 landscape; margin: 1cm; }
+    @media print { body { margin: 0; padding: 0; max-width: none; background: white; font-size: 9pt; } .week-grid { page-break-inside: avoid; } .footer { display: none; } }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>Weekly Schedule — computer-vision</h1>
+    <div class="meta">
+      <span><strong>Week of:</strong> 2026-05-25 (Week 1 of 12)</span>
+      <span><strong>Total hours/week:</strong> 18</span>
+      <span><strong>Primary block:</strong> 06:30–08:30</span>
+      <span><strong>Secondary block:</strong> 21:00–22:15</span>
+    </div>
+  </div>
+
+  <div class="legend">
+    <span class="legend-item"><span class="legend-swatch" style="background: var(--color-deep); border-left-color: var(--color-deep-border);"></span> Deep work (primary)</span>
+    <span class="legend-item"><span class="legend-swatch" style="background: var(--color-light); border-left-color: var(--color-light-border);"></span> Light reinforcement (secondary)</span>
+    <span class="legend-item"><span class="legend-swatch" style="background: var(--color-feynman); border-left-color: var(--color-feynman-border);"></span> Weekly Feynman</span>
+    <span class="legend-item"><span class="legend-swatch" style="background: #f9fafb; border-left-color: #d1d5db;"></span> Buffer</span>
+  </div>
+
+  <div class="week-grid">
+    <div class="time-header"></div>
+    <div class="day-header">Mon</div>
+    <div class="day-header">Tue</div>
+    <div class="day-header">Wed</div>
+    <div class="day-header">Thu</div>
+    <div class="day-header">Fri</div>
+    <div class="day-header">Sat</div>
+    <div class="day-header">Sun</div>
+
+    <div class="row-label">06:30–08:30<br>Primary</div>
+    <div class="cell cell-deep"><span class="plank">Math + Image Processing</span><span class="activity">Vizuara videos 2-3 + filter impl</span></div>
+    <div class="cell cell-deep"><span class="plank">CNN Era</span><span class="activity">Vizuara videos 4-9 + PyTorch CNN impl</span></div>
+    <div class="cell cell-deep"><span class="plank">Vision Transformers</span><span class="activity">Vizuara videos 17-19 + ViT scratch</span></div>
+    <div class="cell cell-deep"><span class="plank">Detection + Segmentation</span><span class="activity">Vizuara videos 20-25</span></div>
+    <div class="cell cell-deep"><span class="plank">Project + Deployment</span><span class="activity">Vizuara videos 26-30 + own dataset</span></div>
+    <div class="cell cell-weekend" style="grid-column: span 1;"><span class="plank">Sat 09:00-11:00<br>Cross-plank + Project</span></div>
+    <div class="cell cell-buffer"><span class="plank">Buffer / Weekly Review</span></div>
+
+    <div class="row-label">21:00–22:15<br>Secondary</div>
+    <div class="cell cell-light"><span class="activity">Spaced review + plan Tue</span></div>
+    <div class="cell cell-light"><span class="activity">Spaced review + plan Wed</span></div>
+    <div class="cell cell-light"><span class="activity">Spaced review + plan Thu</span></div>
+    <div class="cell cell-light"><span class="activity">Spaced review + plan Fri</span></div>
+    <div class="cell cell-feynman"><span class="plank">🎯 Feynman Check 21:00-21:30</span><span class="activity">Then plan weekend</span></div>
+    <div class="cell cell-empty"></div>
+    <div class="cell cell-empty"></div>
+  </div>
+
+  <div class="section feynman-section">
+    <h2>Weekly Feynman Check (highest-utility, g≈0.55 — DO NOT SKIP)</h2>
+    <p style="margin: 0;"><strong>Friday at 21:00–21:30</strong> — pick one concept from the week and run the <code>feynman-checker</code> skill on it. Replaces the Friday secondary block start.</p>
+  </div>
+
+  <div class="section review-section">
+    <h2>Spaced Repetition Review Queue</h2>
+    <ul>
+      <li><strong>+1d reviews:</strong> Mon concepts → Tue secondary; Tue → Wed; etc.</li>
+      <li><strong>+3d reviews:</strong> Mon → Thu secondary; Tue → Fri; etc.</li>
+      <li><strong>+7d reviews:</strong> Mon → Mon next week; etc.</li>
+      <li><strong>+21d reviews:</strong> Mon → 3 weeks out; cross-plank integration check</li>
+    </ul>
+    <p style="font-size: 0.85rem; color: var(--color-muted); margin: 0.5rem 0 0 0;">Default cadence per Cepeda et al. (2006) — meta-analysis of 184 studies on the spacing effect. Auto-generated from <code>notes/</code> and <code>reviews/</code> directories.</p>
+  </div>
+
+  <div class="section fallback-section">
+    <h2>Fallback Minimums (when life intervenes)</h2>
+    <ul>
+      <li><strong>Primary block fallback:</strong> 20 min — one Feynman attempt on the most recent concept OR one Vizuara video at 1.5× without notes</li>
+      <li><strong>Secondary block fallback:</strong> 5 min — review the top 3 due flashcards. Done.</li>
+    </ul>
+  </div>
+
+  <div class="section nonneg-section">
+    <h2>Non-negotiables (scheduler must NEVER overlap)</h2>
+    <ul>
+      <li>19:00–20:30 family time — every day</li>
+      <li>22:30–06:00 sleep — every day</li>
+      <li>10:00–19:00 day job — Mon–Fri</li>
+    </ul>
+  </div>
+
+  <div class="footer">
+    Generated by Self-Learning OS · franklin-scheduler · 2026-05-23
+  </div>
+</body>
+</html>

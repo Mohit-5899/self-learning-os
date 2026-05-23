@@ -125,7 +125,7 @@ Personalize from the user's own context (job, business, family — pulled from `
 | Factor | Template | Example for the originator |
 |---|---|---|
 | Autonomy | "I am learning this on my own terms, on my own schedule, because I chose to." | "I'm learning CV because I chose to extend my AI engineering — no university or boss told me to." |
-| Mastery | "Every week I can verify concrete improvement against my plan." | "Each week, my Hoichoi AI work benefits from sharper vision understanding." |
+| Mastery | "Every week I can verify concrete improvement against my plan." | "Each week, my day job AI work benefits from sharper vision understanding." |
 | Purpose | "This contributes to something beyond me." | "This becomes a Quanta AI Labs offering and a QuantaSkool module." |
 
 Three sentences, specific to this user. Not generic.

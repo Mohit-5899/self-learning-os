@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Learning Plan — computer-vision</title>
+  <style>
+    :root {
+      --color-text: #1a1a1a; --color-muted: #6b7280; --color-divider: #d1d5db;
+      --color-plank-bg: #f7f3e9; --color-plank-border: #d08770;
+      --color-survey-bg: #fdf6e3; --color-survey-border: #b58900;
+      --color-resource-bg: #ffffff;
+      --color-question-bg: #fef9e7; --color-question-border: #e6d8a8;
+      --color-motivation-bg: #e8eef4; --color-motivation-border: #3a6ea5;
+      --color-feedback-bg: #fce4ec; --color-feedback-border: #c2185b;
+      --font-serif: Georgia, "Times New Roman", serif;
+      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body { font-family: var(--font-serif); max-width: 950px; margin: 2rem auto; padding: 1.5rem; color: var(--color-text); line-height: 1.6; background: #fafafa; }
+    .header { border-bottom: 2px solid var(--color-text); padding-bottom: 1rem; margin-bottom: 1.5rem; }
+    .header h1 { margin: 0 0 0.5rem 0; font-size: 1.5rem; }
+    .smart-goal { font-style: italic; color: var(--color-muted); margin: 0.6rem 0; font-size: 1rem; line-height: 1.5; }
+    .meta { display: flex; flex-wrap: wrap; gap: 1.5rem; font-family: var(--font-sans); font-size: 0.85rem; color: var(--color-muted); }
+    .meta strong { color: var(--color-text); }
+    h2 { margin: 1.8rem 0 0.8rem 0; font-family: var(--font-sans); font-size: 0.95rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; padding-bottom: 0.3rem; border-bottom: 1px solid var(--color-divider); }
+    .plank-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 0.8rem; }
+    .plank-card { padding: 0.9rem 1.1rem; background: var(--color-plank-bg); border-left: 4px solid var(--color-plank-border); border-radius: 0 4px 4px 0; }
+    .plank-card h3 { margin: 0 0 0.4rem 0; font-size: 1rem; }
+    .plank-card .topics { font-size: 0.85rem; color: var(--color-muted); margin: 0.3rem 0; }
+    .plank-card .techniques { font-family: var(--font-sans); font-size: 0.75rem; margin-top: 0.4rem; }
+    .technique-tag { display: inline-block; padding: 0.1rem 0.5rem; margin: 0.1rem 0.2rem 0 0; background: rgba(208, 129, 112, 0.2); border-radius: 3px; font-weight: 600; color: #8a4a3a; }
+    .survey-block { padding: 1rem 1.4rem; background: var(--color-survey-bg); border-left: 4px solid var(--color-survey-border); border-radius: 0 4px 4px 0; }
+    .survey-block ul { margin: 0; padding-left: 1.4rem; }
+    .survey-block li { margin-bottom: 0.5rem; font-size: 0.9rem; }
+    .survey-block .verified { font-family: var(--font-sans); font-size: 0.7rem; color: var(--color-muted); margin-left: 0.4rem; }
+    .survey-block .task { display: block; margin-top: 0.2rem; font-size: 0.85rem; color: var(--color-text); }
+    .resource-list { font-size: 0.9rem; }
+    .resource-list .plank-name { font-weight: 700; margin-top: 1rem; color: var(--color-plank-border); }
+    .resource-list ul { margin: 0.3rem 0 0.8rem 1.4rem; padding: 0; }
+    .resource-list li { margin-bottom: 0.4rem; }
+    .question-bank { padding: 1rem 1.4rem; background: var(--color-question-bg); border-left: 4px solid var(--color-question-border); border-radius: 0 4px 4px 0; }
+    .question-bank ol { margin: 0; padding-left: 1.4rem; }
+    .question-bank li { margin-bottom: 0.4rem; font-size: 0.95rem; }
+    .motivation-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.8rem; }
+    .motivation-card { padding: 0.9rem 1.1rem; background: var(--color-motivation-bg); border-left: 4px solid var(--color-motivation-border); border-radius: 0 4px 4px 0; }
+    .motivation-card h3 { margin: 0 0 0.4rem 0; font-family: var(--font-sans); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-motivation-border); }
+    .motivation-card p { margin: 0; font-size: 0.9rem; font-style: italic; }
+    .feedback-block { padding: 1rem 1.4rem; background: var(--color-feedback-bg); border-left: 4px solid var(--color-feedback-border); border-radius: 0 4px 4px 0; }
+    .feedback-block h3 { margin: 0 0 0.4rem 0; font-family: var(--font-sans); font-size: 0.85rem; color: var(--color-feedback-border); }
+    .feedback-block p { margin: 0; font-size: 0.9rem; }
+    .footer { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--color-divider); font-family: var(--font-sans); font-size: 0.75rem; color: var(--color-muted); text-align: center; }
+    @page { size: A4; margin: 1.5cm; }
+    @media print { body { margin: 0; padding: 0; max-width: none; background: white; font-size: 10pt; } .plank-card, .survey-block, .question-bank, .motivation-card, .feedback-block { page-break-inside: avoid; } .footer { display: none; } }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>Learning Plan — computer-vision</h1>
+    <p class="smart-goal">By 2026-08-22, complete Vizuara videos 1–30, train one custom non-MNIST classifier, implement one YOLO detector, ship one deployed CV demo + Quanta blog post — 18 hours/week.</p>
+    <div class="meta">
+      <span><strong>Deadline:</strong> 2026-08-22</span>
+      <span><strong>Weekly hours:</strong> 18</span>
+      <span><strong>Total budget:</strong> 216h</span>
+      <span><strong>Suitability:</strong> high</span>
+    </div>
+  </div>
+
+  <h2>Planks (Rotating Focus Areas)</h2>
+  <div class="plank-grid">
+    <div class="plank-card">
+      <h3>1. Math + Image Processing</h3>
+      <div class="topics">Linear algebra, convolution math, filters, edge detection, image pipelines</div>
+      <div class="techniques">
+        <span class="technique-tag">practice testing</span>
+        <span class="technique-tag">self-explanation</span>
+      </div>
+    </div>
+    <div class="plank-card">
+      <h3>2. CNN Era</h3>
+      <div class="topics">Simple NN → AlexNet → VGG → ResNet → MobileNet → DenseNet → NASNet</div>
+      <div class="techniques">
+        <span class="technique-tag">practice testing</span>
+        <span class="technique-tag">elaborative interrogation</span>
+        <span class="technique-tag">distributed practice</span>
+      </div>
+    </div>
+    <div class="plank-card">
+      <h3>3. Vision Transformers</h3>
+      <div class="topics">ViT intuition, ViT from scratch, attention for vision</div>
+      <div class="techniques">
+        <span class="technique-tag">self-explanation</span>
+        <span class="technique-tag">practice testing</span>
+      </div>
+    </div>
+    <div class="plank-card">
+      <h3>4. Detection + Segmentation</h3>
+      <div class="topics">YOLO, R-CNN family, Mask R-CNN, UNet + family</div>
+      <div class="techniques">
+        <span class="technique-tag">practice testing</span>
+        <span class="technique-tag">elaborative interrogation</span>
+      </div>
+    </div>
+    <div class="plank-card">
+      <h3>5. Project + Deployment</h3>
+      <div class="topics">LPR project, Roboflow, Streamlit, fall detection demo</div>
+      <div class="techniques">
+        <span class="technique-tag">production implementation</span>
+      </div>
+    </div>
+    <div class="plank-card">
+      <h3>6. Review + Integration</h3>
+      <div class="topics">Cross-plank synthesis, spaced repetition, weekly Feynman</div>
+      <div class="techniques">
+        <span class="technique-tag">distributed practice</span>
+        <span class="technique-tag">self-explanation</span>
+      </div>
+    </div>
+  </div>
+
+  <h2>Week 1 — Survey Phase (orientation only, no deep engagement yet)</h2>
+  <div class="survey-block">
+    <ul>
+      <li><strong>Vizuara channel + playlist</strong> <span class="verified">verified 2026-05-23</span><span class="task">→ Verify channel is current. Re-watch videos 1-2 at 1.5× for refresh.</span></li>
+      <li><strong>Video 3 — Filters and Convolution</strong> <span class="verified">verified 2026-05-23</span><span class="task">→ Survey only: read description, skim first/last 5 min. No notes yet.</span></li>
+      <li><strong>pytorch.org/tutorials</strong> <span class="verified">verified 2026-05-23</span><span class="task">→ Browse top-level structure. Map tutorials to planks.</span></li>
+      <li><strong>huggingface.co/models (image-classification)</strong> <span class="verified">verified 2026-05-23</span><span class="task">→ Browse top models. Note which architectures appear repeatedly.</span></li>
+      <li><strong>arXiv CV survey 2025</strong> <span class="verified">verified 2026-05-23</span><span class="task">→ Read abstract + section headings only.</span></li>
+    </ul>
+  </div>
+
+  <h2>Question Bank (Hunt for Answers Across the Plan)</h2>
+  <div class="question-bank">
+    <ol>
+      <li>Why does a convolution work better than a fully connected layer for images?</li>
+      <li>How do skip connections solve the vanishing gradient problem?</li>
+      <li>Why does ResNet enable training networks 100+ layers deep when AlexNet struggled at 8?</li>
+      <li>How does YOLO achieve real-time inference while two-stage detectors (Faster R-CNN) don't?</li>
+      <li>What is an anchor box and why are multiple scales needed?</li>
+      <li>Why does batch normalization improve training stability?</li>
+      <li>What changes when ViT replaces convolutions with self-attention — what is gained, what is lost?</li>
+      <li>How does transfer learning work and when does it fail?</li>
+      <li>What does data augmentation actually do statistically?</li>
+      <li>Why is IoU the standard detection metric and what are its failure modes?</li>
+      <li>How does UNet's encoder-decoder structure produce per-pixel segmentation?</li>
+      <li>What is the relationship between an attention map in ViT and a feature map in a CNN — are they the same kind of thing?</li>
+    </ol>
+  </div>
+
+  <h2>Motivation Anchors (re-read when motivation dips)</h2>
+  <div class="motivation-grid">
+    <div class="motivation-card">
+      <h3>Autonomy</h3>
+      <p>I'm learning CV on my own schedule, on my own terms — because I chose to extend my AI engineering. No university or employer told me to. The decision is mine.</p>
+    </div>
+    <div class="motivation-card">
+      <h3>Mastery</h3>
+      <p>Every day job project after week 4 benefits from sharper vision understanding. By week 12, I will do things on my team that nobody else can — and I'll know exactly how I got there.</p>
+    </div>
+    <div class="motivation-card">
+      <h3>Purpose</h3>
+      <p>This 3-month journey produces a Quanta AI Labs CV service offering, a QuantaSkool module, and a public blog post. Three downstream wins beyond me.</p>
+    </div>
+  </div>
+
+  <h2>External Feedback Plan</h2>
+  <div class="feedback-block">
+    <h3>Self-imposed accountability (high-suitability topic, no mandatory mentor)</h3>
+    <p>Post each plank's implementation to a public GitHub repo. Share weekly Quanta AI Labs internal update with the Week-N artifact. Final Quanta blog post (week 12 milestone) as public accountability.</p>
+  </div>
+
+  <div class="footer">
+    Generated by Self-Learning OS · learning-planner · 2026-05-23
+  </div>
+</body>
+</html>

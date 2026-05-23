@@ -81,6 +81,10 @@ cp -r self-learning-os/skills/* ~/.claude/skills/
 
 Upload the contents of `skills/` to your claude.ai project's skill panel (paid plans). See Anthropic's [skills documentation](https://docs.claude.com/) for the current flow.
 
+## Worked example
+
+See [`examples/computer-vision/`](./examples/computer-vision/) for a real end-to-end run of the bundle — a working professional with a 9-hour day job, side business, and family commitments learning modern computer vision (CNNs → Vision Transformers → object detection) over 12 weeks. Open the `.html` files in a browser to see the rendered artifacts (SMART goal card, plan dashboard, weekly calendar).
+
 ## Quick start
 
 After install, just say what you want to learn:

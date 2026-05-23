@@ -63,7 +63,7 @@ Write a single sentence covering all five SMART dimensions. Examples:
 
 **Bad:** "I will learn computer vision."
 
-**SMART:** "By <date 12 weeks from today>, I will have trained a custom YOLO object detector on a dataset I assembled myself, deployed it behind a simple web demo, and written one technical blog post explaining the architecture — investing 8 hours per week of focused study, because this directly extends my Hoichoi AI engineering work and creates a portfolio piece for Quanta AI Labs."
+**SMART:** "By <date 12 weeks from today>, I will have trained a custom YOLO object detector on a dataset I assembled myself, deployed it behind a simple web demo, and written one technical blog post explaining the architecture — investing 8 hours per week of focused study, because this directly extends my day job AI engineering work and creates a portfolio piece for Quanta AI Labs."
 
 The structure:
 - **Specific:** "trained a custom YOLO object detector on a dataset I assembled myself, deployed it behind a simple web demo, and written one technical blog post"
