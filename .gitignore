@@ -1,0 +1,30 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Editors / IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Python (for any future scripts/)
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Node (in case the eval harness ports to JS)
+node_modules/
+*.log
+
+# Local learning state — never commit user data
+.self-learning-os/
+
+# Secrets — never commit
+.env
+.env.local
+*.pem
+*.key

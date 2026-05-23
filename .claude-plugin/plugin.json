@@ -1,0 +1,41 @@
+{
+  "name": "self-learning-os",
+  "version": "0.1.0",
+  "description": "Personal self-learning coach for any topic. Walks the user through diagnosis (art-vs-science, confidence, self-management), planning (SMART goal, weekly planks, Franklin-style schedule), and execution (Feynman checks, evidence-backed spaced practice). Built on Peter Hollins' Science of Self-Learning, calibrated against the Dunlosky 2013 utility hierarchy.",
+  "author": {
+    "name": "Quanta AI Labs",
+    "email": "aiguru20052024@gmail.com"
+  },
+  "homepage": "https://github.com/Mohit-5899/self-learning-os",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Mohit-5899/self-learning-os"
+  },
+  "license": "MIT",
+  "keywords": [
+    "learning",
+    "self-learning",
+    "coaching",
+    "study",
+    "spaced-repetition",
+    "feynman",
+    "sq3r",
+    "cornell-notes",
+    "claude-skill",
+    "education"
+  ],
+  "skills": [
+    "skills/self-learning-coach",
+    "skills/topic-classifier",
+    "skills/confidence-audit",
+    "skills/self-management-setup",
+    "skills/smart-goal-setter",
+    "skills/learning-planner",
+    "skills/franklin-scheduler",
+    "skills/feynman-checker"
+  ],
+  "agents": [],
+  "commands": [],
+  "hooks": [],
+  "mcpServers": []
+}
